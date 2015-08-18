@@ -1,5 +1,5 @@
 [root]
-name = "event"
+name = "event_rust"
 version = "0.1.0"
 dependencies = [
  "bitflags 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",

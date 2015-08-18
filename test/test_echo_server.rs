@@ -1,6 +1,6 @@
-extern crate event;
-use event::*;
-use event::sys::*;
+extern crate event_rust;
+use event_rust::*;
+use event_rust::sys::*;
 use std::collections::HashMap;
 
 extern crate libc;

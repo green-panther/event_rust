@@ -1,4 +1,4 @@
-use event::*;
+use event_rust::*;
 use std::fmt;
 use std::ptr;
 

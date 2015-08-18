@@ -1,7 +1,13 @@
 [package]
-name = "event"
+name = "event_rust"
 version = "0.1.0"
-authors = ["wgd <wgd@qq.com>"]
+license       = "MIT"
+description   = "Lightweight non-blocking IO"
+authors = ["tickbh <dwhat@vip.qq.com>"]
+homepage      = "https://github.com/carllerche/mio"
+repository    = "https://github.com/carllerche/mio"
+readme        = "README.md"
+keywords      = ["io", "async", "non-blocking"]
 
 [dependencies]
 libc = "*"

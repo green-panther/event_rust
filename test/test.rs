@@ -1,4 +1,4 @@
-extern crate event;
+extern crate event_rust;
 
 pub use test::localhost;
 mod test_timer;
