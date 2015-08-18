@@ -89,7 +89,7 @@ pub fn test_echo_server() {
     let mut event_loop = EventLoop::new().unwrap();
     let mut sock_mgr = SocketManger { socks : HashMap::new() };
 
-    let addr = "127.0.0.1:1009";
+    let addr = "127.0.0.1:10009";
     let listener = Socket::new(libc::AF_INET, libc::SOCK_STREAM, 0).unwrap();
     // listener.bind(format!("{}:{}", addr.ip(), addr.port()).as_ref()).unwrap();
     listener.bind(&addr).unwrap();
