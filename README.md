@@ -3,6 +3,8 @@
 Event is a lightweight IO library for Rust with a focus on adding as
 little overhead as possible over the OS abstractions.
 
+[![Build Status](https://api.travis-ci.org/tickbh/event_rust.svg?branch=master)](https://travis-ci.org/tickbh/event_rust)
+
 **Getting started guide**
 Currently a work in progress:
 
