@@ -14,13 +14,13 @@ To use `event_rust`, first add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-event_rust = "0.1.0"
+event_rust = "0.1.1"
 ```
 
 Then, add this to your crate root:
 
 ```rust
-extern crate event;
+extern crate event_rust;
 ```
 
 ## Features
