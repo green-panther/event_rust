@@ -1,0 +1,14 @@
+language: rust
+sudo: true
+rust:
+  - nightly
+  - 1.1.0
+
+os:
+  - linux
+  - osx
+  - windows
+
+script:
+  - cargo test
+  - cargo doc --no-deps
