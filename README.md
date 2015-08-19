@@ -1,4 +1,4 @@
-# Event - Async IO
+# Event - Async IO similar to libevent
 
 Event is a lightweight IO library for Rust with a focus on adding as
 little overhead as possible over the OS abstractions.
