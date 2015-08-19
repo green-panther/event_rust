@@ -4,7 +4,7 @@ use {Timer, EventEntry};
 use sys::Selector;
 use std::collections::HashMap;
 use {EventFlags, FLAG_PERSIST};
-use std::io;
+use std::{io, thread};
 
 /// Configure EventLoop runtime details
 #[derive(Copy, Clone, Debug)]
@@ -22,7 +22,7 @@ pub struct EventLoopConfig {
 impl Default for EventLoopConfig {
     fn default() -> EventLoopConfig {
         EventLoopConfig {
-            io_poll_timeout_ms: 1_000,
+            io_poll_timeout_ms: 10,
             notify_capacity: 4_096,
             messages_per_tick: 256,
             timer_capacity: 65_536,
@@ -34,6 +34,7 @@ impl Default for EventLoopConfig {
 // #[derive(Debug)]
 pub struct EventLoop {
     run: bool,
+    last_op : bool,
     timer: Timer,
     selector : Selector,
     config: EventLoopConfig,
@@ -65,6 +66,7 @@ impl EventLoop {
         let selector = try!(Selector::new());
         Ok(EventLoop {
             run: true,
+            last_op: true,
             timer: timer,
             selector : selector,
             config: config,
@@ -103,6 +105,10 @@ impl EventLoop {
     /// handler if any of the registered handles become ready during that
     /// time.
     pub fn run_once(&mut self) -> io::Result<()> {
+        if !self.last_op {
+            thread::sleep_ms(self.config.io_poll_timeout_ms as u32);
+        }
+        self.last_op = false;
         let size = try!(self.selector.select(&mut self.evts, 0)) as usize;
         for index in 0 .. size {
             let evt = self.evts[index].clone();
@@ -111,7 +117,10 @@ impl EventLoop {
                 ev.callback(self, evt.ev_events);
             }
         }
-        self.timer_process();
+        let size_time = self.timer_process();
+        if size > 0 || size_time > 0 {
+            self.last_op = true;
+        }
         Ok(())
     }
 
@@ -134,19 +143,22 @@ impl EventLoop {
         self.event_maps.remove(&ev_fd);
     }
 
-    fn timer_process(&mut self) {
+    fn timer_process(&mut self) -> i32 {
         let now = self.timer.now();
+        let mut size = 0;
         loop {
             match self.timer.tick_time(now) {
                 Some(entry) => {
+                    size = size + 1;
                     let ret = entry.callback(self, EventFlags::empty());
                     if ret == 0 && entry.ev_events.contains(FLAG_PERSIST)  {
                         let _ = self.add_timer(entry);
                     }
                 },
-                _ => return
+                _ => break
             }
         }
+        size
     }
 }
 

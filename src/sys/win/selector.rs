@@ -16,7 +16,6 @@ pub struct Selector {
 impl Selector {
 
 	pub fn new() -> io::Result<Selector> {
-        println!("new !!!!!!!!!!!!!");
 		Ok(Selector {
             write_sockets : Vec::new(),
             read_sockets : Vec::new(),
